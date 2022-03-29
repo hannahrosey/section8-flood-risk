@@ -19,7 +19,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
 
   // add floodplain layers
   // 100 year floodplain
-  var floodplain_100 = $.getJSON('./data/floodplain_100.geojson', function(floodplain_100){
+  var floodplain_100 = $.getJSON('./data/floodplain_100_slim.geojson', function(floodplain_100){
   // add data source
     map.addSource('floodplain_100', {
         type: 'geojson',
@@ -43,7 +43,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
     });
 
     // 500 year floodplain
-    var floodplain_500 = $.getJSON('./data/floodplain_500.geojson', function(floodplain_500){
+    var floodplain_500 = $.getJSON('./data/floodplain_500_slim.geojson', function(floodplain_500){
     // add data source
       map.addSource('floodplain_500', {
           type: 'geojson',
