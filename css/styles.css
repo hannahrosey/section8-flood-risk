@@ -63,24 +63,38 @@ html, body {
   width: 400px;
   height: 100%;
   display: flex;
-  padding: 25px 15px;
+  padding: 15px 0px;
 }
 
-.sidebar h3 {
-  font-size: 30px;
+.sidebar h5 {
+  font-size: 18px;
   text-align: center;
+  padding-top: 25px;
+  padding-left: 15px;
+  padding-right: 10px;
 }
 
 .info-blurb {
   margin: 30px;
+  padding-top: 24px;
 }
 
-.stat-table h5 {
+.stat-table-container {
+  width: 400px;
+  height: 200px;
+  display: absolute;
+  padding-top: 25px;
+  padding-bottom: 30px;
+  padding-left: 10px;
+  padding-right: 15px;
+}
+
+.stat-table {
   font-size: 14px;
   text-align: center
 }
 
 .stat-table table {
   font-size: 12px;
-  text-align: center
+  text-align: left;
 }

@@ -6,8 +6,6 @@ var nyBounds = [[-74.333496,40.469935], [-73.653717,40.932190]]
 
 $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
 
-  /*console.log(hcv_dat);*/
-
   var map = new mapboxgl.Map({
     container: 'mapContainer', // HTML container id
     style: 'mapbox://styles/mapbox/dark-v9', // style URL
@@ -15,8 +13,30 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
     maxBounds: nyBounds, // keep user from moving outside map area
     zoom: 9,
     });
-
+  // initialize hover variable
   var hoveredPumaId = null;
+
+  // add floodplain layers
+  // 00 year floodplain
+  var floodplain_100 = $.getJSON('./data/floodplain_100.geojson', function(floodplain_100){
+  // add data source
+    map.addSource('floodplain_100', {
+        type: 'geojson',
+        data: floodplain_100,
+        generateId: true
+      });
+    // add number reported fill layer
+    map.addLayer({
+        id: 'floodplain_100',
+        type: 'fill',
+        source: 'floodplain_100',
+        paint: {
+          'fill-opacity': .55,
+          'fill-color': "#2b8cbe"
+        }
+      });
+    });
+
   // add data source
   map.on('load', function() {
     map.addSource('hcv_dat', {
@@ -34,7 +54,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
             'case',
             ['boolean',
             ['feature-state', 'hover'], false],
-            .85,
+            .95,
             0.5
           ],
           'fill-color': [
@@ -57,8 +77,6 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
           'fill-outline-color':"#fff"
           }
         });
-
-    // TODO: Add sea level rise layer
 
     // TODO: add estimated total households layer
     // TODO: add total people layer
@@ -132,26 +150,38 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
     map.on('click','reported_fill', function(e) {
       // get properties
       var properties = e.features[0].properties;
+      var est_people_total = properties.est_total_occupied*properties.avg_hh_size;
 
       // add table of reviews data to sidebar
+      // TO DO format numbers
       $('.stat-table').html(`
-          <h5>Neighborhood: <i>${properties.puma_name}</i><h5>
           <table>
             <tr>
-              <th>Number of Reported Households</th>
-              <th>Number of Reported Individuals</th>
-              <th>Average Voucher Household Size</th>
-              <th>Total Estimated Households</th>
+              <td colspan="6">${properties.puma_name}</td>
             </tr>
             <tr>
-              <td>${properties.number_reported}</td>
-              <td>${properties.people_total}</td>
-              <td>${properties.avg_hh_size}</td>
-              <td>${properties.est_total_occupied}</td>
+              <th></th>
+              <th colspan="2">Reported</th>
+              <th colspan="2">Estimated</th>
+            </tr>
+            <tr>
+              <td><strong>Households</strong></td>
+              <td colspan="2">${properties.number_reported}</td>
+              <td colspan="2">${properties.est_total_occupied}</td>
+            </tr>
+            <tr>
+              <td><strong>Individuals</strong></td>
+              <td colspan="2">${properties.people_total}</td>
+              <td colspan="2">${est_people_total}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td><strong>Average Household Size</strong></td>
+              <td colspan="2">${properties.avg_hh_size}</td>
+              <td colspan="2">NA</td>
             </tr>
           </table>
             `);
           });
   });
-    // TODO: add data table to sidebar PUMA  HCV info when clicked
 });
