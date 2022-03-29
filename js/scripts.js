@@ -15,9 +15,10 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
     });
   // initialize hover variable
   var hoveredPumaId = null;
+  var selectedLayer = null;
 
   // add floodplain layers
-  // 00 year floodplain
+  // 100 year floodplain
   var floodplain_100 = $.getJSON('./data/floodplain_100.geojson', function(floodplain_100){
   // add data source
     map.addSource('floodplain_100', {
@@ -33,9 +34,37 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
         paint: {
           'fill-opacity': .55,
           'fill-color': "#2b8cbe"
+        },
+        layout: {
+          // Make the layer invisible by default.
+          'visibility': 'visible'
         }
       });
     });
+
+    // 500 year floodplain
+    var floodplain_500 = $.getJSON('./data/floodplain_500.geojson', function(floodplain_500){
+    // add data source
+      map.addSource('floodplain_500', {
+          type: 'geojson',
+          data: floodplain_500,
+          generateId: true
+        });
+      // add number reported fill layer
+      map.addLayer({
+          id: 'floodplain_500',
+          type: 'fill',
+          source: 'floodplain_500',
+          paint: {
+            'fill-opacity': .55,
+            'fill-color': "#2b8cbe"
+          },
+          layout: {
+            // Make the layer invisible by default.
+            'visibility': 'none'
+          }
+        });
+      });
 
   // add data source
   map.on('load', function() {
@@ -78,14 +107,43 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
           }
         });
 
-    // TODO: add estimated total households layer
-    // TODO: add total people layer
-    // TODO: add variable toggle
-    // TODO: add code to change legend color, labels on toggle
+    // Add layer toggle functionality to radio buttons
+    // Source: https://docs.mapbox.com/mapbox-gl-js/example/toggle-layers/
+    $('.layertoggle').on('click', function(e) {
+      if (this.id == 100){
+        var selectedLayer = "floodplain_100"
+        var unselectedLayer = "floodplain_500"
+        var unselectedId = "#500"
+      } else if (this.id == 500){
+        var selectedLayer = "floodplain_500"
+        var unselectedLayer = "floodplain_100"
+        var unselectedId = "#100"
+      }
+
+      // get and toggle radio button checked status for unselected layer
+      $(unselectedId).prop('checked', false);
+
+      // get and toggle visibility on for selected layer
+      var visibility = map.getLayoutProperty(
+        selectedLayer,'visibility'
+      );
+
+      if (visibility == 'none'){
+        map.setLayoutProperty(selectedLayer, 'visibility', 'visible');
+      };
+
+      // get and toggle visibility off for unselected layer
+      var visibility = map.getLayoutProperty(
+        unselectedLayer,'visibility'
+      );
+
+      if (visibility != 'none'){
+        map.setLayoutProperty(unselectedLayer, 'visibility', 'none');
+      };
+    });
 
     // highlight the PUMA user is hovering over
     // source: https://docs.mapbox.com/mapbox-gl-js/example/hover-styles/
-
     // add a popup with PUMA name only to help users know where to click
     var popup = new mapboxgl.Popup({
     className: "popup",
@@ -150,36 +208,41 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
     map.on('click','reported_fill', function(e) {
       // get properties
       var properties = e.features[0].properties;
-      var est_people_total = properties.est_total_occupied*properties.avg_hh_size;
+      var number_reported = numeral(properties.number_reported).format('0,0');
+      var est_total_occupied = numeral(properties.est_total_occupied).format('0,0');
+      var people_total = numeral(properties.people_total).format('0,0');
+      var est_people_total = numeral(properties.est_total_occupied*properties.avg_hh_size).format('0,0');
 
       // add table of reviews data to sidebar
       // TO DO format numbers
-      $('.stat-table').html(`
+      $('#stat-table').html(`
           <table>
-            <tr>
-              <td colspan="6">${properties.puma_name}</td>
-            </tr>
-            <tr>
+            <thead>
+              <th colspan="3">${properties.puma_name}</td>
+            </thead>
+            <thead>
               <th></th>
-              <th colspan="2">Reported</th>
-              <th colspan="2">Estimated</th>
-            </tr>
-            <tr>
-              <td><strong>Households</strong></td>
-              <td colspan="2">${properties.number_reported}</td>
-              <td colspan="2">${properties.est_total_occupied}</td>
-            </tr>
-            <tr>
-              <td><strong>Individuals</strong></td>
-              <td colspan="2">${properties.people_total}</td>
-              <td colspan="2">${est_people_total}</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><strong>Average Household Size</strong></td>
-              <td colspan="2">${properties.avg_hh_size}</td>
-              <td colspan="2">NA</td>
-            </tr>
+              <th>Reported</th>
+              <th>Estimated</th>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Households</strong></td>
+                <td>${number_reported}</td>
+                <td>${est_total_occupied}</td>
+              </tr>
+              <tr>
+                <th scope="row">Individuals</td>
+                <td>${people_total}</td>
+                <td>${est_people_total}</td>
+                <td></td>
+              </tr>
+              <tr>
+                <th scope="row">Avg. Household Size</td>
+                <td>${properties.avg_hh_size}</td>
+                <td>-</td>
+              </tr>
+            </tbody>
           </table>
             `);
           });
