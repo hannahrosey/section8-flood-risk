@@ -4,7 +4,7 @@ mapboxgl.accessToken = "pk.eyJ1IjoiaGFubmFocm9zZXkiLCJhIjoiY2t6aG5ocmh0NDNvdzJvb
 // lngLat for New York City
 var nyBounds = [[-74.333496,40.469935], [-73.653717,40.932190]]
 
-$.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
+$.getJSON('./data/hcv_dat.geojson', function(hcv_dat) {
 
   var map = new mapboxgl.Map({
     container: 'mapContainer', // HTML container id
@@ -19,7 +19,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
 
   // add floodplain layers
   // 100 year floodplain
-  var floodplain_100 = $.getJSON('./data/floodplain_100_slim.geojson', function(floodplain_100){
+  var floodplain_100 = $.getJSON('./data/floodplain_100_dissolved.geojson', function(floodplain_100){
   // add data source
     map.addSource('floodplain_100', {
         type: 'geojson',
@@ -32,7 +32,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
         type: 'fill',
         source: 'floodplain_100',
         paint: {
-          'fill-opacity': .55,
+          'fill-opacity': .50,
           'fill-color': "#2b8cbe"
         },
         layout: {
@@ -43,7 +43,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
     });
 
     // 500 year floodplain
-    var floodplain_500 = $.getJSON('./data/floodplain_500_slim.geojson', function(floodplain_500){
+    var floodplain_500 = $.getJSON('./data/floodplain_500_dissolved.geojson', function(floodplain_500){
     // add data source
       map.addSource('floodplain_500', {
           type: 'geojson',
@@ -56,7 +56,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
           type: 'fill',
           source: 'floodplain_500',
           paint: {
-            'fill-opacity': .55,
+            'fill-opacity': .50,
             'fill-color': "#2b8cbe"
           },
           layout: {
@@ -176,6 +176,7 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
       // get data attributes for this feature to populate popup
       var neighb = e.features[0].properties.puma_name;
       var coordinates = e.features[0].geometry.coordinates[0][0];
+      var pct = numeral(e.features[0].properties.pct_hh_in_any_fp).format('0%');
       // select first set of coordinates if many are visible
       if (coordinates.length > 2) {
         coordinates = coordinates[0]
@@ -184,7 +185,8 @@ $.getJSON('./data/hcv_dat_slim.geojson', function(hcv_dat) {
       // TODO: these popups are a little laggy--ask if there is a way to improve
       // set popup content to neighborhood name
       var popupContent = `
-        <h5>${neighb}</h5>`
+        <h5>${neighb}</h5>
+        <p><strong>${pct}</strong> of voucher households in this PUMA are in a census tract in the 100- or 500-year floodplain</p>`
 
       // Populate the popup and set its coordinates
       // based on the feature found.
