@@ -3,6 +3,8 @@
 # About the project
 This map shows where NYC households using Housing Choice Vouchers live, and compares that map to the 100- and 500-year floodplain for the 2020s based on estimates of sea level rise. It uses Public Use Microdata Areas (PUMAS), which is a census estimate of neighborhood geographies. 
 
+<img width="1280" alt="Picture of a map" src="https://user-images.githubusercontent.com/13337090/161155092-07797675-482f-44bc-8030-1507e630a6dd.png">
+
 # About the class
 This project was created as a final project for NYU Wagner's URPL-GP 4650 Advanced GIS: Interactive Web Mapping and Spatial Data Visualization
 
