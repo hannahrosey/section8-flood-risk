@@ -186,7 +186,7 @@ $.getJSON('./data/hcv_dat.geojson', function(hcv_dat) {
       // set popup content to neighborhood name
       var popupContent = `
         <h5>${neighb}</h5>
-        <p>An estimated<strong>${pct}</strong> of voucher households in this PUMA are in a floodplain</p>`
+        <p>An estimated <strong>${pct}</strong> of voucher households in this PUMA are in a floodplain</p>`
 
       // Populate the popup and set its coordinates
       // based on the feature found.
