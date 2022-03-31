@@ -13,23 +13,56 @@
 
 </head>
 <body>
-  <!-- About this data modal -->
+  <!-- Methodology modal -->
   <!-- Source: https://getbootstrap.com/docs/4.0/components/modal/ -->
-  <div class="modal" tabindex="-1" role="dialog">
+  <div id="methodology" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h4 class="modal-title">About the methodology</h4>
+          <button type="button" class="close btn-outline-dark" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Modal body text goes here.</p>
+          <h5>How I found the statistics in this map</h5>
+            <ul>
+              <li><strong>Estimated % of voucher households in a floodplain:</strong> This is the total number of voucher holders by census tract, joined to 100- and 500-year floodplains at the census tract level. Next, the sum of voucher households in the flood plain is divided by the sum of total voucher households in the PUMA to get a PUMA-level share</li>
+              <li><strong>Reported households and individuals:</strong> This is the sum of total reported households and individuals for census tracts in each PUMA. <i>Reported</i> households are those that filled out the certification paperwork in the time period when this report was prepared, and underestimates the total number of households. Data are also omitted by HUD in census tracts with fewer than 11 voucher households due to privacy concerns.</li>
+              <li><strong>Avg. household size:</strong> This is the sum of total reported individuals in a PUMA, divided by the sum of total reported households in a PUMA.</li>
+              <li><strong>Estimated households and individuals:</strong> Estimated households is the total HCVP <i>units</i> in a census tract multiplied by the <i>percent occupied</i> figure provided by HUD to get an estimate of the number of households. This is summed at the PUMA level. Then, it is multiplied by the average household size at the PUMA level to get an estimate of individuals.</li>
+            </ul>
+          <h5>Data sources</h5>
+            <ul>
+              <li>HUD’s 2021 <a href=“https://www.huduser.gov/portal/datasets/assthsg.html#2009-2021_data”>Picture of Subsidized Housing report</a></li>
+              <li>NYC Department of City Planning <a href=“https://www1.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page”>2010 Census Tract Shape Files</a></li>
+              <li>NYC Mayor's Office of Climate and Sustainability’s Sea Level Rise Maps for the 2020s, including <a href=“https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2020s-100-year-Floodplain-/ezfn-5dsb”>100-year</a> and <a href=“https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2020s-500-year-Floodplain-/ajyu-7sgg”>500-year</a> floodplains. Many thanks to <a href=“https://github.com/joannlee-nyc”>Joann Lee</a> for advice on cleaning these files</li>
+              <li>The US Cenus’s <a href=“https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt”>crosswalk</a> of Census Tracts to PUMAs</li>
+              <li>NYC Department of City Planning Population Division’s <a href=“https://www1.nyc.gov/assets/planning/download/pdf/data-maps/nyc-population/census2010/puma_cd_map.pdf”>map</a> of PUMA names and Community District mappings</li>
+            </ul>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- HCVP Modal -->
+  <!-- Source: https://getbootstrap.com/docs/4.0/components/modal/ -->
+  <div id="aboutHCVP" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">About the Housing Choice Voucher Program (HCVP)</h4>
+          <button type="button" class="close btn-outline-dark" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>What is HCVP?</h5>
+          <p>The Section 8 Housing Choice Voucher Program is a key support for low-income renters. According to the <a href=“https://nlihc.org/sites/default/files/oor/2021/Out-of-Reach_2021.pdf”>National Low Income Housing Coalition</a>, a New York state renter making the minimum wage in 2021 needed to work 109 hours a week to afford a 2-bedroom home. The HCVP supports renters in this untenable situation by paying the portion of a participant’s rent above 30% of their income. In addition, many policymakers focused on how racial and economic segregation  see vouchers as a way to expand people’s choices about where they live. About 124,000 people use these vouchers in New York City, including 85,000 served by the <a href=“https://www1.nyc.gov/site/nycha/section-8/about-section-8.page#:~:text=Approximately%2085%2C000%20Section%208%20vouchers,programs%20in%20New%20York%20City”>New York City Housing Authority</a> and 39,000 served by the <a href=“https://www1.nyc.gov/site/hpd/services-and-information/about-section-8.page”>Department of Housing Preservation and Development</a>. </p>
+
+          <h5>What do floodplains have to do with it?</h5>
+          <p>Climate change is leading to more frequent and severe storm events, which sea level rise will exacerbate. Storm events not only cause immediate threats to people’s safety, like floods, but also cause problems that can effect people over the long-term: damage to vital transportation systems, health effects from exposure to mold or chronic stress, and displacement, to name a few. Low-income renters are most vulnerable to these problems. Voucher households can protect themselves by choosing low-risk neighborhoods, and policymakers can help by allocating funding for counselors who assist voucherholders in finding the best home for them. That definition should include free of flood risk.</p>
+        </div>
         </div>
       </div>
     </div>
@@ -38,11 +71,11 @@
   <div id='parent-container'>
     <!-- Navbar -->
     <!-- Source: https://getbootstrap.com/docs/4.0/components/navs/ -->
-    <nav class="nav">
-      <a class="nav-link active" href="#">Home</a>
-      <a class="nav-link" href="#">Learn More</a>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="nav-link" href="https://access.nyc.gov/programs/section-8/">Apply for HCVP</a>
+      <a class="nav-link" href="https://github.com/hannahrosey/section8-flood-risk">View Source Code</a>
     </nav>
-    <!-- Navbar -->
+    <!-- Content -->
     <div class='content-area'>
       <div class='sidebar'>
         <div id='sidebar-content-area'>
@@ -51,15 +84,18 @@
           </div>
           <div class='stat-table-container'>
             <div id='stat-table' class='table table-bordered table-hover'>
-              <i>Select a neighborhood to learn more</i>
+              <i>Click a neighborhood to learn more</i>
             </div>
           </div>
           <div class='info-blurb'>
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+            This map shows where NYC households using the Housing Choice Voucher Program (HCVP) live, and compares that map to flood risk in the 2020s based on estimates of sea level rise. It uses Public Use Microdata Areas (PUMAS), a census estimate of neighborhood geographies. Toggle between 100- and 500-year flood plains, hover over PUMAs to get information on the estimated number of HCVP households at risk, and click a PUMA to dive into the data.
           </div>
           <div class="button-container">
-            <button type="button" class="btn btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">
-              About this data
+            <button type="button" class="btn btn btn-outline-light" data-toggle="modal" data-target="#methodology">
+              Methodology
+            </button>
+            <button type="button" class="btn btn btn-outline-light" data-toggle="modal" data-target="#aboutHCVP">
+              About HCVP
             </button>
           </div>
       </div>
