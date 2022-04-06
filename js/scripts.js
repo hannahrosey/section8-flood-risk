@@ -151,7 +151,7 @@ $.getJSON('./data/hcv_dat.geojson', function(hcv_dat) {
     closeOnClick: false
     });
 
-    map.on('mouseenter', 'reported_fill', function(e) {
+    map.on('mousemove', 'reported_fill', function(e) {
       // change the cursor style to pointer
       map.getCanvas().style.cursor = 'pointer';
 
