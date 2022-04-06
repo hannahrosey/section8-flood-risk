@@ -3,6 +3,8 @@
 # About the project
 This map shows where NYC households using Housing Choice Vouchers live, and compares that map to the 100- and 500-year floodplain for the 2020s based on estimates of sea level rise. It uses Public Use Microdata Areas (PUMAS), which is a census estimate of neighborhood geographies. 
 
+<img width="1280" alt="Picture of a map" src="https://user-images.githubusercontent.com/13337090/161155092-07797675-482f-44bc-8030-1507e630a6dd.png">
+
 # About the class
 This project was created as a final project for NYU Wagner's URPL-GP 4650 Advanced GIS: Interactive Web Mapping and Spatial Data Visualization
 
@@ -23,17 +25,17 @@ This project was created as a final project for NYU Wagner's URPL-GP 4650 Advanc
 	* TRACT_MO_WY_2021.xlsx: 2021 HUD Picture of Subsidized Housing dataset
 
 # Methodology
-**Estimated % of voucher households in a floodplain:** This is the total number of voucher holders by census tract, joined to 100- and 500-year floodplains at the census tract level. Next, the sum of voucher households in the flood plain is divided by the sum of total voucher households in the PUMA to get a PUMA-level share
-**Reported households and individuals:** This is the sum of total reported households and individuals for census tracts in each PUMA. *Reported* households are those that filled out the certification paperwork in the time period when this report was prepared, and underestimates the total number of households. Data are also omitted by HUD in census tracts with fewer than 11 voucher households due to privacy concerns.
-**Avg. household size:** This is the sum of total reported individuals in a PUMA, divided by the sum of total reported households in a PUMA.
-**Estimated households and individuals:** Estimated households is the total HCVP *units* in a census tract multiplied by the *percent occupied* figure provided by HUD to get an estimate of the number of households. This is summed at the PUMA level. Then, it is multiplied by the average household size at the PUMA level to get an estimate of individuals.
+* **Estimated % of voucher households in a floodplain:** This is the total number of voucher holders by census tract, joined to 100- and 500-year floodplains at the census tract level. Next, the sum of voucher households in the flood plain is divided by the sum of total voucher households in the PUMA to get a PUMA-level share
+* **Reported households and individuals:** This is the sum of total reported households and individuals for census tracts in each PUMA. *Reported* households are those that filled out the certification paperwork in the time period when this report was prepared, and underestimates the total number of households. Data are also omitted by HUD in census tracts with fewer than 11 voucher households due to privacy concerns.
+* **Avg. household size:** This is the sum of total reported individuals in a PUMA, divided by the sum of total reported households in a PUMA.
+* **Estimated households and individuals:** Estimated households is the total HCVP *units* in a census tract multiplied by the *percent occupied* figure provided by HUD to get an estimate of the number of households. This is summed at the PUMA level. Then, it is multiplied by the average household size at the PUMA level to get an estimate of individuals.
 
 ## Data sources
-*HUD?s 2021 <a href=?https://www.huduser.gov/portal/datasets/assthsg.html#2009-2021_data?>Picture of Subsidized Housing report</a>
-*NYC Department of City Planning <a href=?https://www1.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page?>2010 Census Tract Shape Files</a>
-*NYC Mayor's Office of Climate and Sustainability?s Sea Level Rise Maps for the 2020s, including <a href=?https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2020s-100-year-Floodplain-/ezfn-5dsb?>100-year</a> and <a href=?https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2020s-500-year-Floodplain-/ajyu-7sgg?>500-year</a> floodplains. Many thanks to <a href=?https://github.com/joannlee-nyc?>Joann Lee</a> for advice on cleaning these files
-*The US Cenus?s <a href=?https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt?>crosswalk</a> of Census Tracts to PUMAs
-*NYC Department of City Planning Population Division?s <a href=?https://www1.nyc.gov/assets/planning/download/pdf/data-maps/nyc-population/census2010/puma_cd_map.pdf?>map</a> of PUMA names and Community District mappings
+* HUD?s 2021 <a href=?https://www.huduser.gov/portal/datasets/assthsg.html#2009-2021_data?>Picture of Subsidized Housing report</a>
+* NYC Department of City Planning <a href=?https://www1.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page?>2010 Census Tract Shape Files</a>
+* NYC Mayor's Office of Climate and Sustainability?s Sea Level Rise Maps for the 2020s, including <a href=?https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2020s-100-year-Floodplain-/ezfn-5dsb?>100-year</a> and <a href=?https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2020s-500-year-Floodplain-/ajyu-7sgg?>500-year</a> floodplains. Many thanks to <a href=?https://github.com/joannlee-nyc?>Joann Lee</a> for advice on cleaning these files
+* The US Census's <a href=?https://www2.census.gov/geo/docs/maps-data/data/rel/2010_Census_Tract_to_2010_PUMA.txt?>crosswalk</a> of Census Tracts to PUMAs
+* NYC Department of City Planning Population Division?s <a href=?https://www1.nyc.gov/assets/planning/download/pdf/data-maps/nyc-population/census2010/puma_cd_map.pdf?>map</a> of PUMA names and Community District mappings
             </ul>
 
 # Background
