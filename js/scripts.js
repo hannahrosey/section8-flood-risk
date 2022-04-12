@@ -151,12 +151,16 @@ $.getJSON('./data/hcv_dat.geojson', function(hcv_dat) {
     closeOnClick: false
     });
 
-    map.on('mousemove', 'reported_fill', function(e) {
+    map.on('mousemove', function(e) {
       // change the cursor style to pointer
       map.getCanvas().style.cursor = 'pointer';
 
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ['reported_fill']
+      })
+
       // highlight hovered over PUMA
-      if (e.features.length > 0) {
+      if (features.length > 0) {
         // un-highlight any previously highlighted PUMAs
         if (hoveredPumaId !== null) {
           map.setFeatureState(
@@ -166,45 +170,38 @@ $.getJSON('./data/hcv_dat.geojson', function(hcv_dat) {
         }
 
         // highlight currently hovered-over PUMA
-        hoveredPumaId = e.features[0].id;
+        hoveredPumaId = features[0].id;
         map.setFeatureState(
           { source: 'hcv_dat', id: hoveredPumaId },
           { hover: true }
         );
+
+        // get data attributes for this feature to populate popup
+        var neighb = features[0].properties.puma_name;
+        var centroid = turf.centroid(features[0].geometry)
+        var pct = numeral(features[0].properties.pct_hh_in_any_fp).format('0%');
+
+        // set popup content to neighborhood name
+        var popupContent = `
+          <h5>${neighb}</h5>
+          <p>An estimated <strong>${pct}</strong> of voucher households in this PUMA are in a floodplain</p>`
+
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup.setLngLat(centroid.geometry.coordinates).setHTML(popupContent).addTo(map);
+      } else {
+        // remove popup
+        popup.remove();
+
+        // unhighlight previously hovered-over PUMA
+        if (hoveredPumaId !== null) {
+          map.setFeatureState(
+            { source: 'hcv_dat', id: hoveredPumaId },
+            { hover: false }
+          );
+        }
+        hoveredPumaId = null;
       }
-
-      // get data attributes for this feature to populate popup
-      var neighb = e.features[0].properties.puma_name;
-      var coordinates = e.features[0].geometry.coordinates[0][0];
-      var pct = numeral(e.features[0].properties.pct_hh_in_any_fp).format('0%');
-      // select first set of coordinates if many are visible
-      if (coordinates.length > 2) {
-        coordinates = coordinates[0]
-      }
-
-      // TODO: these popups are a little laggy--ask if there is a way to improve
-      // set popup content to neighborhood name
-      var popupContent = `
-        <h5>${neighb}</h5>
-        <p>An estimated <strong>${pct}</strong> of voucher households in this PUMA are in a floodplain</p>`
-
-      // Populate the popup and set its coordinates
-      // based on the feature found.
-      popup.setLngLat(coordinates).setHTML(popupContent).addTo(map);
-    });
-
-    map.on('mouseleave', 'reported_fill', function() {
-      // remove popup
-      popup.remove();
-
-      // unhighlight previously hovered-over PUMA
-      if (hoveredPumaId !== null) {
-        map.setFeatureState(
-          { source: 'hcv_dat', id: hoveredPumaId },
-          { hover: false }
-        );
-      }
-      hoveredPumaId = null;
     });
 
     map.on('click','reported_fill', function(e) {
